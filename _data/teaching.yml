@@ -1,0 +1,32 @@
+type: time_table
+contents:
+  - title: "Grad TA: CS 240 Introduction to Discrete Mathematics"
+    institution: University of Wisconsin - Madison
+    year: 2023 FA
+    description:
+    - TBD
+  - title: "UGrad TA: CS 2802 Discrete Structures - Honors"
+    institution: Cornell University
+    year: 2023 SP
+    description:
+    - Graded written assignments
+    - Held dicussion sections and office hours
+  - title: "UGrad TA: CS 3110 Functional Programming"
+    institution: Cornell University
+    year: 2022 SP
+    description:
+    - Graded programming and written assignments
+    - Held discussion sections and office hours
+  - title: "UGrad TA: CS 2112 OOP Design and Data Structures - Honors"
+    institution: Cornell University
+    year: 2021 FA
+    description:
+    - Graded programming and written assignments
+    - Held office hours
+  - title: "UGrad TA: CS 2802 Discrete Structures - Honors"
+    institution: Cornell University
+    year: 2020 FA
+    description:
+    - Graded written assignments
+    - Helped design exam questions
+    - Held office hours
