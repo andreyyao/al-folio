@@ -90,7 +90,7 @@ work_url: # work page URL
 keybase_username: # your keybase user name
 wikidata_id: # your wikidata id
 wikipedia_id: # your wikipedia id (Case sensitive)
-dblp_url: # your DBLP profile url
+dblp_url: https://dblp.org/pid/318/3811.html
 stackoverflow_id: # your stackoverflow id
 kaggle_id: # your kaggle id
 lastfm_id: # your lastfm id
@@ -120,7 +120,6 @@ bing_site_verification:  # out your bing-site-verification ID (Bing Webmaster)
 
 blog_name: al-folio # blog_name will be displayed in your blog page
 blog_nav_title: Blog # your blog must have a title for it to be displayed in the nav bar
-blog_description: a simple whitespace theme for academics
 permalink: /blog/:year/:title/
 
 # Pagination
