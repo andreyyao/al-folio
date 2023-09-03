@@ -7,20 +7,18 @@ subtitle: <a href='https://www.wisc.edu/'>University of Wisconsin-Madison</a>
 profile:
   align: right
   image: prof_pic.jpg
-  image_circular: true # crops the image to make it circular
+  image_circular: false # crops the image to make it circular
   address: >
-    <p>A0155</p>
+    <p>4235 CS Building</p>
     <p>1210 W. Dayton St</p>
     <p>Madison, WI 53703</p>
 
 news: true  # includes a list of news items
-latest_posts: true  # includes a list of the newest posts
+latest_posts: false  # includes a list of the newest posts
 selected_papers: true # includes a list of papers marked as "selected={true}"
-social: true  # includes social icons at the bottom of the page
+social: false  # includes social icons at the bottom of the page
 ---
 
-I am a first year CS PhD student at the University of Wisconsin-Madison. My interests lie mostly in the theory of programming languages.
+I am a first year CS PhD student at the [University of Wisconsin-Madison](https://www.wisc.edu/). My interests lie mostly in the theory of programming languages. I like to analyze the behavior of programming languages by considering their **denotational semantics**. I am also interested in designing **type systems** to guarantee desirable properties of languages.
 
-Put your address / P.O. box / other info right below your picture. You can also disable any of these elements by editing `profile` property of the YAML header of your `_pages/about.md`. Edit `_bibliography/papers.bib` and Jekyll will render your [publications page](/al-folio/publications/) automatically.
-
-Link to your social media connections, too. This theme is set up to use [Font Awesome icons](http://fortawesome.github.io/Font-Awesome/) and [Academicons](https://jpswalsh.github.io/academicons/), like the ones below. Add your Facebook, Twitter, LinkedIn, Google Scholar, or just disable all of them.
+Before starting my PhD, I earned my Bachelor's degree in computer science and mathematics at [Cornell University](https://www.cornell.edu/).
