@@ -5,4 +5,4 @@ inline: true
 related_posts: false
 ---
 
-I received my B.A. from Cornell University, with cum laude in mathematics and magna cum laude in computer science.
+I received my B.A. from Cornell University, with magna cum laude in computer science and cum laude in mathematics.
