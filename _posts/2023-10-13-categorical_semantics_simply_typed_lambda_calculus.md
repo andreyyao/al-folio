@@ -85,9 +85,7 @@ $$
 \RightLabel{Var}
 \UIC{$\Gamma,x:A\vdash x:A$}
 \end{prooftree}
-$$
-
-$$
+\quad
 \begin{prooftree}
 \AXC{$\Gamma\vdash x:A$}
 \RightLabel{Weaken}
@@ -101,9 +99,7 @@ $$
 \RightLabel{Abs}
 \UIC{$\Gamma\vdash\lambda x:A. e:A\to B$}
 \end{prooftree}
-$$
-
-$$
+\quad
 \begin{prooftree}
 \AXC{$\Gamma\vdash f:A\to B$}
 \AXC{$\Gamma\vdash e:A$}
@@ -118,9 +114,7 @@ $$
 \RightLabel{fst}
 \UIC{$\Gamma\vdash \texttt{fst}\;e:A$}
 \end{prooftree}
-$$
-
-$$
+\quad
 \begin{prooftree}
 \AXC{$\Gamma\vdash e:A\times B$}
 \RightLabel{snd}
@@ -139,6 +133,69 @@ $$
 
 ## A Cartesian-closed category
 
-For the other piece of the translation, we fix any Cartesian-closed category $$\mathbf{C}$$. Recall that a Cartesian-closed category is a category with finite products, such that for each object $$A$$, the _right product functor_ $$(-\times A):\mathbf{C}\to\mathbf{C}$$ has a _right adjoint_ $$-^A:\mathbf{C}\to\mathbf{C}$$ called the exponential.
+For the other piece of the translation, we fix any Cartesian-closed category (CCC) $$\mathbf{C}$$. Recall that a Cartesian-closed category is a category with finite products, such that for each object $$A$$, the _right product functor_ $$(-\times A):\mathbf{C}\to\mathbf{C}$$ has a right adjoint $$(-^A):\mathbf{C}\to\mathbf{C}$$ called the _exponential_.
 
-The definition of adjunctions come with a unit natural transformation $$\epsilon_Y:(-^A\times A)\to \text{Id}_\mathbf{C}$$ and a counit natural transformation $$\eta_Y:\text{Id}_\mathbf{C}\to (-\times A)^A$$ such that
+The definition of adjunctions come with a unit natural transformation $$\epsilon_A:(-^A\times A)\to \text{Id}_\mathbf{C}$$ and a counit natural transformation $$\eta_A:\text{Id}_\mathbf{C}\to (-\times A)^A$$ such that the following "zigzag" equalities hold:
+
+$$\begin{equation}\mathcal{Id}_{(-\times A)}=\epsilon_A (-\times A)\circ (-\times A)\eta_A\end{equation}$$
+
+$$\begin{equation}\mathcal{Id}_{(-^A)}=(-^A)\epsilon_A\circ \eta_A (-^A)\end{equation}$$
+
+Here $$\text{Id}_\mathbf{C}$$ is the identity functor on $$\mathbf{C}$$, and the caligraphic $$\mathcal{Id}$$ denotes identity natural transformations on the respective functors.
+
+For each object $$B\in\mathbf{C}$$, the component $$\epsilon_{A,B}$$ of the unit $$\epsilon_A$$ has the universal property such that, for any $$C\in\mathbf{C}$$ and morphism $$f$$ from $$(\underline{C}\times A)$$ (the product functor applied to $$C$$) to $$B$$, there exists a unique morphism $$curry(f)$$ from $$C$$ to $$B^A$$ (the exponential functor applied to $$B$$) making the diagram commute:
+<div align="center">
+<!-- https://q.uiver.app/#q=WzAsMyxbMCwwLCJcXHVuZGVybGluZXtDfVxcdGltZXMgQSJdLFswLDIsIkJeQVxcdGltZXMgQSJdLFsyLDIsIkIiXSxbMSwyLCJcXGVwc2lsb25fe0EsQn0iLDJdLFswLDEsIlxcZXhpc3RzIVxcO2N1cnJ5KGYpXFx0aW1lcyBcXHRleHR7aWR9X0EiLDEseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19XSxbMCwyLCJmIl1d -->
+<iframe class="quiver-embed" src="https://q.uiver.app/#q=WzAsMyxbMCwwLCJcXHVuZGVybGluZXtDfVxcdGltZXMgQSJdLFswLDIsIkJeQVxcdGltZXMgQSJdLFsyLDIsIkIiXSxbMSwyLCJcXGVwc2lsb25fe0EsQn0iLDJdLFswLDEsIlxcZXhpc3RzIVxcO2N1cnJ5KGYpXFx0aW1lcyBcXHRleHR7aWR9X0EiLDEseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19XSxbMCwyLCJmIl1d&embed" width="420" height="400" style="border-radius: 8px; border: none;"></iframe>
+</div>
+
+Dually, for each object $$C\in\mathbf{C}$$, the component $$\eta_{A,C}$$ of the counit has the universal property that for any $$B\in\mathbf{C}$$ and morphism $$g$$ from $$C$$ to $$\underline{B}^A$$, there exists a unique morphism $$uncurry(g)$$ such that $$(uncurry(g))^A\circ\eta_{A,C}=g$$
+
+## The translation
+We are finally ready to define the semantic translation! The double brackets $$[\![\;]\!]$$ takes something from the type theory and maps it into the CCC we specified. On types, it is defined inductive on the syntax and maps each type to an object in the CCC. Again, the following translations are taken from Pierce's _Basic Category for Computer Scientists_:
+
+$$\begin{align*}
+[\![\texttt{Unit}]\!]&\triangleq 1_\mathbf{C}\\
+[\![A\times B]\!]&\triangleq [\![A]\!] \times [\![B]\!]\\
+[\![A\to B]\!]&\triangleq [\![B]\!]^{[\![A]\!]}
+\end{align*}$$
+
+The translation for the typing context is inductively defined on the number of variables: $$[\![\varnothing]\!]\triangleq 1_\mathbf{C}$$ and $$[\![\Gamma,x:A]\!]\triangleq [\![\Gamma]\!]\times [\![A]\!]$$.
+
+Finally, we inductively define the translation on the typing derivations:
+
+| Derivation                                           | Translation                                                                                     | Domain                            | Target                            |
+|------------------------------------------------------|-------------------------------------------------------------------------------------------------|-----------------------------------|-----------------------------------|
+| $$[\![\Gamma\vdash \texttt{unit}:\texttt{Unit}]\!]$$ | $$!_{[\![\Gamma]\!]}$$                                                                          | $$[\![\Gamma]\!]$$                | $$1_\mathbf{C}$$                  |
+| $$[\![\Gamma,x:A\vdash x:A]\!]$$                     | $$\pi_2$$                                                                                       | $$[\![\Gamma]\!]\times[\![A]\!]$$ | $$[\![A]\!]$$                     |
+| $$[\![\Gamma,x:A\vdash y:B]\!]$$                     | $$[\![\Gamma\vdash y:B]\!]\circ\pi_1$$                                                          | $$[\![\Gamma]\!]\times[\![A]\!]$$ | $$[\![B]\!]$$                     |
+| $$[\![\Gamma\vdash \lambda x:A.e:A\to B]\!]$$        | $$curry([\![\Gamma,x:A\vdash e:B]\!])$$                                                         | $$[\![\Gamma]\!]$$                | $$[\![B]\!]^{[\![A]\!]}$$         |
+| $$[\![\Gamma\vdash e_1\;e_2:B]\!]$$                  | $$\epsilon_{A,B}\circ\langle[\![\Gamma\vdash e_1:A\to B]\!],[\![\Gamma\vdash e_2:A]\!]\rangle$$ | $$[\![\Gamma]\!]$$                | $$[\![B]\!]$$                     |
+| $$[\![\Gamma\vdash (e_1,e_2):A\times B]\!]$$         | $$\langle[\![\Gamma\vdash e_1:A]\!],[\![\Gamma\vdash e_2:B]\!]\rangle$$                         | $$[\![\Gamma]\!]$$                | $$[\![A]\!]\times[\![B]\!]$$ |
+| $$[\![\Gamma\vdash \texttt{fst}\;e:A]\!]$$           | $$\pi_1\circ [\![\Gamma\vdash (e_1,e_2):A\times B]\!]$$                                         | $$[\![\Gamma]\!]$$                | $$[\![A]\!]$$                     |
+| $$[\![\Gamma\vdash \texttt{snd}\;e:B]\!]$$           | $$\pi_2\circ [\![\Gamma\vdash (e_1,e_2):A\times B]\!]$$                                         | $$[\![\Gamma]\!]$$                | $$[\![B]\!]$$                     |
+
+<br>
+
+For this particular formulation of STLC, it just so happens that for any fixed context, if a term is typeable then there is a unique typing rule that applies to it. This can be seen just from the fact that each term grammar branch appears in the conclusion of exactly one typing rule. Thus, we can be a little hand-wavy and define the translations on the term syntax directly.
+
+# Semantics respects equivalence
+
+## Eta-equivalence
+The $$\eta$$-equivalence says that for whatever types $$A,B$$, a function $$f:A\to B$$ should be considered "the same" as $$\lambda x:A. f\;a$$. Indeed, the latter seems to be just "$$f$$ with extra steps". It turns out our categorical interpretation respects this equivalence.
+
+Suppose $$\Gamma\vdash \lambda x:A.e\;x:B$$. Then $$e$$ must be of type $$A\to B$$, but it doesn't have to be in normal form. Here we "cheat" a bit and assume that we never reuse variable names. That is, $$x$$ should not be a free variable in $$e$$. This is a reasonable assumption though. The semantics of the typing derivations defined earlier tells us
+
+$$\begin{align*}
+&[\![\Gamma\vdash \lambda x:A.e\;x:B]\!]\\
+=&curry([\![\Gamma,x:A \vdash e\;x:B]\!])\\
+=&curry(\epsilon_{A,B}\circ \langle[\![\Gamma,x:A\vdash e:A\to B]\!],[\![\Gamma,x:A\vdash x:A]\!]\rangle)\\
+=&curry(\epsilon_{A,B}\circ \langle[\![\Gamma,x:A\vdash e:A\to B]\!],\pi_2\rangle)\\
+\end{align*}$$
+
+$$\begin{align*}
+&[\![\Gamma\vdash e:A\to B]\!]\\
+=&curry([\![\Gamma,x:A \vdash e\;x:B]\!])\\
+=&curry(\epsilon_{A,B}\circ \langle[\![\Gamma,x:A\vdash e:A\to B]\!],[\![\Gamma,x:A\vdash x:A]\!]\rangle)\\
+=&curry(\epsilon_{A,B}\circ \langle[\![\Gamma,x:A\vdash e:A\to B]\!],\pi_2\rangle)\\
+\end{align*}$$
