@@ -137,19 +137,19 @@ For the other piece of the translation, we fix any Cartesian-closed category (CC
 
 The definition of adjunctions come with a unit natural transformation $$\epsilon_A:(-^A\times A)\to \text{Id}_\mathbf{C}$$ and a counit natural transformation $$\eta_A:\text{Id}_\mathbf{C}\to (-\times A)^A$$ such that the following "zigzag" equalities hold:
 
-$$\begin{equation}\mathcal{Id}_{(-\times A)}=\epsilon_A (-\times A)\circ (-\times A)\eta_A\end{equation}$$
+$$\begin{equation}\mathcal{Id}_{(-\times A)}=\epsilon_A (-\times A)\circ (-\times A)\eta_A\label{eq:unit}\end{equation}$$
 
-$$\begin{equation}\mathcal{Id}_{(-^A)}=(-^A)\epsilon_A\circ \eta_A (-^A)\end{equation}$$
+$$\begin{equation}\mathcal{Id}_{(-^A)}=(-^A)\epsilon_A\circ \eta_A (-^A)\label{eq:counit}\end{equation}$$
 
 Here $$\text{Id}_\mathbf{C}$$ is the identity functor on $$\mathbf{C}$$, and the caligraphic $$\mathcal{Id}$$ denotes identity natural transformations on the respective functors.
 
-For each object $$B\in\mathbf{C}$$, the component $$\epsilon_{A,B}$$ of the unit $$\epsilon_A$$ has the universal property such that, for any $$C\in\mathbf{C}$$ and morphism $$f$$ from $$(\underline{C}\times A)$$ (the product functor applied to $$C$$) to $$B$$, there exists a unique morphism $$curry(f)$$ from $$C$$ to $$B^A$$ (the exponential functor applied to $$B$$) making the diagram commute:
+An alternative formulation of \eqref{eq:unit} is useful as follows. For each object $$B\in\mathbf{C}$$, the component $$\epsilon_{A,B}$$ of the unit $$\epsilon_A$$ has the universal property such that, for any $$C\in\mathbf{C}$$ and morphism $$f$$ from $$(\underline{C}\times A)$$ (the product functor applied to $$C$$) to $$B$$, there exists a unique morphism $$curry(f)$$ from $$C$$ to $$B^A$$ (the exponential functor applied to $$B$$) making the diagram commute:
 <div align="center">
 <!-- https://q.uiver.app/#q=WzAsMyxbMCwwLCJcXHVuZGVybGluZXtDfVxcdGltZXMgQSJdLFswLDIsIkJeQVxcdGltZXMgQSJdLFsyLDIsIkIiXSxbMSwyLCJcXGVwc2lsb25fe0EsQn0iLDJdLFswLDEsIlxcZXhpc3RzIVxcO2N1cnJ5KGYpXFx0aW1lcyBcXHRleHR7aWR9X0EiLDEseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19XSxbMCwyLCJmIl1d -->
 <iframe class="quiver-embed" src="https://q.uiver.app/#q=WzAsMyxbMCwwLCJcXHVuZGVybGluZXtDfVxcdGltZXMgQSJdLFswLDIsIkJeQVxcdGltZXMgQSJdLFsyLDIsIkIiXSxbMSwyLCJcXGVwc2lsb25fe0EsQn0iLDJdLFswLDEsIlxcZXhpc3RzIVxcO2N1cnJ5KGYpXFx0aW1lcyBcXHRleHR7aWR9X0EiLDEseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19XSxbMCwyLCJmIl1d&embed" width="420" height="400" style="border-radius: 8px; border: none;"></iframe>
 </div>
 
-Dually, for each object $$C\in\mathbf{C}$$, the component $$\eta_{A,C}$$ of the counit has the universal property that for any $$B\in\mathbf{C}$$ and morphism $$g$$ from $$C$$ to $$\underline{B}^A$$, there exists a unique morphism $$uncurry(g)$$ such that $$(uncurry(g))^A\circ\eta_{A,C}=g$$
+<!-- Dually, for each object $$C\in\mathbf{C}$$, the component $$\eta_{A,C}$$ of the counit has the universal property that for any $$B\in\mathbf{C}$$ and morphism $$g$$ from $$C$$ to $$\underline{B}^A$$, there exists a unique morphism $$uncurry(g)$$ such that $$(uncurry(g))^A\circ\eta_{A,C}=g$$ -->
 
 ## The translation
 We are finally ready to define the semantic translation! The double brackets $$[\![\;]\!]$$ takes something from the type theory and maps it into the CCC we specified. On types, it is defined inductive on the syntax and maps each type to an object in the CCC. Again, the following translations are taken from Pierce's _Basic Category for Computer Scientists_:
@@ -201,10 +201,13 @@ Tho a mouthful, $$\epsilon_{A,B}\circ\langle[\![\Gamma\vdash e:A\to B]\!]\circ\p
 <iframe class="quiver-embed" src="https://q.uiver.app/#q=WzAsMyxbMCwwLCJbXFwhW1xcR2FtbWFdXFwhXVxcdGltZXMgW1xcIVtBXVxcIV0iXSxbMCwyLCJbXFwhW0JdXFwhXV57W1xcIVtBXVxcIV19XFx0aW1lcyBbXFwhW0FdXFwhXSJdLFsyLDIsIltcXCFbQl1cXCFdIl0sWzEsMiwiXFxlcHNpbG9uX3tBLEJ9IiwyXSxbMCwxLCJnIiwxLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fV0sWzAsMiwiZiJdXQ==&embed" width="400" height="400" style="border-radius: 8px; border: none;"></iframe>
 </div>
 
-Where did the mystery $$g$$ come from? Well, since $$f$$ is of the form $$\epsilon_{A,B}$$ composed with _something_, we can just define $$g$$ to be the _something_, aka $$\langle[\![\Gamma\vdash e:A\to B]\!]\circ\pi_1,\pi_2\rangle$$, and the above diagram will trivially commute. But, note $$g$$ actually equal to $$[\![\Gamma\vdash e:A\to B]\!]\times \text{id}_{[\![A]\!]}$$.
+Where did the mystery $$g$$ come from? Well, since $$f$$ is of the form $$\epsilon_{A,B}$$ composed with _something_, we can just define $$g$$ to be the _something_, aka $$\langle[\![\Gamma\vdash e:A\to B]\!]\circ\pi_1,\pi_2\rangle$$, and the above diagram will trivially commute. But, note $$g$$ is actually equal to $$[\![\Gamma\vdash e:A\to B]\!]\times \text{id}_{[\![A]\!]}$$.
 
 Finally, for the real kicker, we invoke the uniqueness of $$curry$$ in the universal property of $$\epsilon_A$$, so that $$[\![\Gamma\vdash e:A\to B]\!]=curry(\epsilon_{A,B}\circ \langle[\![\Gamma\vdash e:A\to B]\!]\circ\pi_1,\pi_2\rangle)$$. This concludes the proof that our categorical semantics respects eta-equivalence:
 
 $$[\![\Gamma\vdash \lambda x:A.e\;x:A\to B]\!]=[\![\Gamma\vdash e:A\to B]\!]$$
 
 # Conclusion
+This was mostly just an exercise for me to make sure that the categorical semantics of STLC is sensible. Indeed, we have verified parts of the analogy from the nlab "computational trilogy" table, that the semantic respects $$\beta$$ and $$\eta$$ equivalence. Actually, the proof came down exactly to the unit $$\eqref{eq:unit}$$ and counit $$\eqref{eq:counit}$$ equations, just as in the table.
+
+Note that our version of STLC doesn't contain any "ground types" besides $$\texttt{Unit}$$. One can simply add more ground types like $$\texttt{Int}, \texttt{Bool}, \texttt{Number}$$, etc. The translation will then be incorporated to map each ground type to some designated object in our CCC, and the proof still works because it was defined inductively on the typing derivations. However, in this way the categorical semantics will not be able to enforce fine-grained equational constraints like `40+2=42` on the operational semantics.
