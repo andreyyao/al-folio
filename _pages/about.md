@@ -14,11 +14,11 @@ profile:
     <p>Madison, WI 53703</p>
 
 news: true  # includes a list of news items
-latest_posts: false  # includes a list of the newest posts
+latest_posts: true  # includes a list of the newest posts
 selected_papers: true # includes a list of papers marked as "selected={true}"
 social: false  # includes social icons at the bottom of the page
 ---
 
-I am a first year CS PhD student at the [University of Wisconsin-Madison](https://www.wisc.edu/). My interests lie mostly in the theory of programming languages. I like to analyze the behavior of programming languages by considering their **denotational semantics**. I am also interested in designing **type systems** to guarantee desirable properties of languages.
+I am a first year CS PhD student at the [University of Wisconsin-Madison](https://www.wisc.edu/). Programming languages is my main area of interest, and I am involved in the [MadPL]() group. My current work resolves around ways of preventing code from being run. No, really, _type systems_ ensures _correct_ and _secure_ code by rejecting large classes of mistakes and attacks. This is especially important when dealing with complex programs, such as _distributed systems_. I also enjoying understanding the behavior of programming languages by considering their _denotational semantics_.
 
 Before starting my PhD, I earned my Bachelor's degree in computer science and mathematics at [Cornell University](https://www.cornell.edu/).
