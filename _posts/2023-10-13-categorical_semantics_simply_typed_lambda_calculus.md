@@ -87,9 +87,9 @@ $$
 \end{prooftree}
 \quad
 \begin{prooftree}
-\AXC{$\Gamma\vdash x:A$}
+\AXC{$\Gamma\vdash e:A$}
 \RightLabel{Weaken}
-\UIC{$\Gamma,y:B\vdash x:A$}
+\UIC{$\Gamma,y:B\vdash e:A$}
 \end{prooftree}
 $$
 
@@ -168,7 +168,7 @@ Finally, we inductively define the translation on the typing derivations:
 |------------------------------------------------------|-------------------------------------------------------------------------------------------------|-----------------------------------|-----------------------------------|
 | $$[\![\Gamma\vdash \texttt{unit}:\texttt{Unit}]\!]$$ | $$!_{[\![\Gamma]\!]}$$                                                                          | $$[\![\Gamma]\!]$$                | $$1_\mathbf{C}$$                  |
 | $$[\![\Gamma,x:A\vdash x:A]\!]$$                     | $$\pi_2$$                                                                                       | $$[\![\Gamma]\!]\times[\![A]\!]$$ | $$[\![A]\!]$$                     |
-| $$[\![\Gamma,x:A\vdash y:B]\!]$$                     | $$[\![\Gamma\vdash y:B]\!]\circ\pi_1$$                                                          | $$[\![\Gamma]\!]\times[\![A]\!]$$ | $$[\![B]\!]$$                     |
+| $$[\![\Gamma,y:B\vdash e:A]\!]$$                     | $$[\![\Gamma\vdash e:A]\!]\circ\pi_1$$                                                          | $$[\![\Gamma]\!]\times[\![A]\!]$$ | $$[\![B]\!]$$                     |
 | $$[\![\Gamma\vdash \lambda x:A.e:A\to B]\!]$$        | $$curry([\![\Gamma,x:A\vdash e:B]\!])$$                                                         | $$[\![\Gamma]\!]$$                | $$[\![B]\!]^{[\![A]\!]}$$         |
 | $$[\![\Gamma\vdash e_1\;e_2:B]\!]$$                  | $$\epsilon_{A,B}\circ\langle[\![\Gamma\vdash e_1:A\to B]\!],[\![\Gamma\vdash e_2:A]\!]\rangle$$ | $$[\![\Gamma]\!]$$                | $$[\![B]\!]$$                     |
 | $$[\![\Gamma\vdash (e_1,e_2):A\times B]\!]$$         | $$\langle[\![\Gamma\vdash e_1:A]\!],[\![\Gamma\vdash e_2:B]\!]\rangle$$                         | $$[\![\Gamma]\!]$$                | $$[\![A]\!]\times[\![B]\!]$$ |
@@ -182,20 +182,29 @@ For this particular formulation of STLC, it just so happens that for any fixed c
 # Semantics respects equivalence
 
 ## Eta-equivalence
-The $$\eta$$-equivalence says that for whatever types $$A,B$$, a function $$f:A\to B$$ should be considered "the same" as $$\lambda x:A. f\;a$$. Indeed, the latter seems to be just "$$f$$ with extra steps". It turns out our categorical interpretation respects this equivalence.
+The $$\eta$$-equivalence says that for whatever types $$A,B$$, a function $$h:A\to B$$ should be considered "the same" as $$\lambda x:A. h\;x$$. Indeed, the latter seems to be just "$$h$$ with extra steps". It turns out our categorical interpretation respects this equivalence.
 
-Suppose $$\Gamma\vdash \lambda x:A.e\;x:B$$. Then $$e$$ must be of type $$A\to B$$, but it doesn't have to be in normal form. Here we "cheat" a bit and assume that we never reuse variable names. That is, $$x$$ should not be a free variable in $$e$$. This is a reasonable assumption though. The semantics of the typing derivations defined earlier tells us
+Now for the proof. Suppose $$\Gamma\vdash \lambda x:A.e\;x:A\to B$$. Then $$e$$ must be of type $$A\to B$$, but it doesn't have to be in normal form. Here we "cheat" a bit and assume that we never reuse variable names. That is, $$x$$ should not be a free variable in $$e$$. This is a reasonable assumption though. The semantics of the typing derivations defined earlier tells us
 
 $$\begin{align*}
-&[\![\Gamma\vdash \lambda x:A.e\;x:B]\!]\\
+&[\![\Gamma\vdash \lambda x:A.e\;x:A\to B]\!]\\
 =&curry([\![\Gamma,x:A \vdash e\;x:B]\!])\\
 =&curry(\epsilon_{A,B}\circ \langle[\![\Gamma,x:A\vdash e:A\to B]\!],[\![\Gamma,x:A\vdash x:A]\!]\rangle)\\
 =&curry(\epsilon_{A,B}\circ \langle[\![\Gamma,x:A\vdash e:A\to B]\!],\pi_2\rangle)\\
+=&curry(\epsilon_{A,B}\circ \langle[\![\Gamma\vdash e:A\to B]\!]\circ\pi_1,\pi_2\rangle)
 \end{align*}$$
 
-$$\begin{align*}
-&[\![\Gamma\vdash e:A\to B]\!]\\
-=&curry([\![\Gamma,x:A \vdash e\;x:B]\!])\\
-=&curry(\epsilon_{A,B}\circ \langle[\![\Gamma,x:A\vdash e:A\to B]\!],[\![\Gamma,x:A\vdash x:A]\!]\rangle)\\
-=&curry(\epsilon_{A,B}\circ \langle[\![\Gamma,x:A\vdash e:A\to B]\!],\pi_2\rangle)\\
-\end{align*}$$
+Tho a mouthful, $$\epsilon_{A,B}\circ\langle[\![\Gamma\vdash e:A\to B]\!]\circ\pi_1,\pi_2\rangle$$ is a morphism from $$[\![\Gamma]\!]\times [\![A]\!]$$ to $$[\![B]\!]$$. If we set $$C$$ to be $$[\![\Gamma]\!]$$, and $$f$$ as $$\epsilon_{A,B}\circ\langle[\![\Gamma\vdash e:A\to B]\!]\circ\pi_1,\pi_2\rangle$$, then the diagram for the unit equation becomes
+
+<div align="center">
+<!-- https://q.uiver.app/#q=WzAsMyxbMCwwLCJbXFwhW1xcR2FtbWFdXFwhXVxcdGltZXMgW1xcIVtBXVxcIV0iXSxbMCwyLCJbXFwhW0JdXFwhXV57W1xcIVtBXVxcIV19XFx0aW1lcyBbXFwhW0FdXFwhXSJdLFsyLDIsIltcXCFbQl1cXCFdIl0sWzEsMiwiXFxlcHNpbG9uX3tBLEJ9IiwyXSxbMCwxLCJnIiwxLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fV0sWzAsMiwiZiJdXQ== -->
+<iframe class="quiver-embed" src="https://q.uiver.app/#q=WzAsMyxbMCwwLCJbXFwhW1xcR2FtbWFdXFwhXVxcdGltZXMgW1xcIVtBXVxcIV0iXSxbMCwyLCJbXFwhW0JdXFwhXV57W1xcIVtBXVxcIV19XFx0aW1lcyBbXFwhW0FdXFwhXSJdLFsyLDIsIltcXCFbQl1cXCFdIl0sWzEsMiwiXFxlcHNpbG9uX3tBLEJ9IiwyXSxbMCwxLCJnIiwxLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fV0sWzAsMiwiZiJdXQ==&embed" width="400" height="400" style="border-radius: 8px; border: none;"></iframe>
+</div>
+
+Where did the mystery $$g$$ come from? Well, since $$f$$ is of the form $$\epsilon_{A,B}$$ composed with _something_, we can just define $$g$$ to be the _something_, aka $$\langle[\![\Gamma\vdash e:A\to B]\!]\circ\pi_1,\pi_2\rangle$$, and the above diagram will trivially commute. But, note $$g$$ actually equal to $$[\![\Gamma\vdash e:A\to B]\!]\times \text{id}_{[\![A]\!]}$$.
+
+Finally, for the real kicker, we invoke the uniqueness of $$curry$$ in the universal property of $$\epsilon_A$$, so that $$[\![\Gamma\vdash e:A\to B]\!]=curry(\epsilon_{A,B}\circ \langle[\![\Gamma\vdash e:A\to B]\!]\circ\pi_1,\pi_2\rangle)$$. This concludes the proof that our categorical semantics respects eta-equivalence:
+
+$$[\![\Gamma\vdash \lambda x:A.e\;x:A\to B]\!]=[\![\Gamma\vdash e:A\to B]\!]$$
+
+# Conclusion
