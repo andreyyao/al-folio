@@ -212,3 +212,8 @@ $$[\![\Gamma\vdash \lambda x:A.e\;x:A\to B]\!]=[\![\Gamma\vdash e:A\to B]\!]$$
 This was mostly just an exercise for me to make sure that the categorical semantics of STLC is sensible. Indeed, we have verified parts of the analogy from the nlab "computational trilogy" table, that the semantic respects $$\beta$$ and $$\eta$$ equivalence. Actually, the proof came down exactly to the unit $$\eqref{eq:unit}$$ and counit $$\eqref{eq:counit}$$ equations, just as in the table.
 
 Note that our version of STLC doesn't contain any "ground types" besides $$\texttt{Unit}$$. One can simply add more ground types like $$\texttt{Int}, \texttt{Bool}, \texttt{Number}$$, etc. The translation will then be incorporated to map each ground type to some designated object in our CCC, and the proof still works because it was defined inductively on the typing derivations. However, in this way the categorical semantics will not be able to enforce fine-grained equational constraints like `40+2=42` on the operational semantics.
+
+# References
+1. {% reference pierce1991BasicCategoryTheory --file /zotero.bib %}
+2. {% reference maclane1978CategoriesWorkingMathematician --file /zotero.bib %}
+3. https://ncatlab.org/nlab/show/computational+trilogy
